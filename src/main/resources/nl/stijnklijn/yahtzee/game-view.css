@@ -1,0 +1,16 @@
+#player1Pane, #player2Pane {
+    -fx-pref-width: 400;
+    -fx-border-color: black;
+    -fx-alignment: center;
+}
+
+#fieldPane {
+    -fx-font-size: 20;
+}
+
+.button {
+    -fx-pref-width: 200;
+    -fx-pref-height: 50;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
