@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<VBox alignment="CENTER" spacing="20" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.stijnklijn.yahtzee.MenuController">
+   <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="YAHTZEE"/>
+   <ImageView fx:id="imageView"/>
+   <Button mnemonicParsing="false" text="NEW GAME" onAction="#startGame"/>
+   <Button mnemonicParsing="false" text="EXIT" onAction="#exit"/>
+</VBox>

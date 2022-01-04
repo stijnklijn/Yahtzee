@@ -1,0 +1,12 @@
+#title {
+    -fx-font-size: 20;
+}
+
+.text-field {
+    -fx-max-width: 200;
+}
+
+.button {
+    -fx-pref-width: 75;
+    -fx-pref-height: 35;
+}

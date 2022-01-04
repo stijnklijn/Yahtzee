@@ -325,12 +325,12 @@ public class GameController {
         btRoll.setDisable(true);
     }
 
-    public void setup() {
+    public void setup(String player1Name, String player2Name) {
         //This method initializes a new game
 
         //Initialize players
-        player1Name = "Player 1";
-        player2Name = "Player 2";
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
 
         player1Score = new Text(player1Name + ": 0");
         player2Score = new Text(player2Name + ": 0");
