@@ -3,6 +3,7 @@ package nl.stijnklijn.yahtzee;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,5 +54,21 @@ public class SceneManager {
         primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
         primaryStage.show();
+    }
+
+    public void showEndGameScene(String player1Name, String player2Name, String message) throws IOException {
+        Stage secondaryStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(YahtzeeLauncher.class.getResource("endgame-view.fxml"));
+        Pane pane = fxmlLoader.load();
+        EndGameController controller = fxmlLoader.getController();
+        controller.setup(secondaryStage, player1Name, player2Name, message);
+        pane.getStylesheets().add(EndGameController.class.getResource("endgame-view.css").toExternalForm());
+        Scene scene = new Scene(pane, 500, 550);
+        secondaryStage.setTitle(message);
+        secondaryStage.setScene(scene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.initModality(Modality.APPLICATION_MODAL);
+        secondaryStage.setResizable(false);
+        secondaryStage.show();
     }
 }

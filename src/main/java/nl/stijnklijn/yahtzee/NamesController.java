@@ -14,11 +14,11 @@ public class NamesController {
     public void startGame() throws IOException {
         String player1Name = player1NameField.getText();
         String player2Name = player2NameField.getText();
-        if (player1Name.length() > 0 && player2Name.length() > 0 && !player1Name.equals(player2Name)) {
+        if (player1Name.length() > 0 && player1Name.length() <= 15 && player2Name.length() > 0 && player2Name.length() <= 15 && !player1Name.equals(player2Name)) {
             YahtzeeLauncher.getSceneManager().showGameScene(player1Name, player2Name);
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter two different non-empty player names");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter two different player names between 1 and 15 characters");
             alert.show();
         }
     }

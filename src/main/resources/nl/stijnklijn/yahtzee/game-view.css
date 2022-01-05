@@ -15,9 +15,9 @@
     -fx-font-weight: bold;
 }
 
-#btBack {
-    -fx-pref-width: 50;
-    -fx-pref-height: 12;
+#btMenu {
+    -fx-pref-width: 100;
+    -fx-pref-height: 25;
     -fx-font-size: 12;
     -fx-font-weight: normal;
 }

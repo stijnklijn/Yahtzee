@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" spacing="20" xmlns="http://javafx.com/javafx/11.0.2"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.stijnklijn.yahtzee.EndGameController">
+   <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0"/>
+   <ImageView fx:id="imageView"/>
+   <Button mnemonicParsing="false" text="Play again (same players)" onAction="#playAgainSamePlayers"/>
+   <Button mnemonicParsing="false" text="Play again (different players)" onAction="#playAgainDifferentPlayers"/>
+   <Button mnemonicParsing="false" text="Back to main menu" onAction="#backToMainMenu"/>
+   <Button mnemonicParsing="false" text="Back to game" onAction="#backToGame"/>
+</VBox>

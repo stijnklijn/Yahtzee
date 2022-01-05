@@ -14,3 +14,10 @@
     -fx-font-size: 20;
     -fx-font-weight: bold;
 }
+
+#btMenu {
+    -fx-pref-width: 100;
+    -fx-pref-height: 25;
+    -fx-font-size: 12;
+    -fx-font-weight: normal;
+}

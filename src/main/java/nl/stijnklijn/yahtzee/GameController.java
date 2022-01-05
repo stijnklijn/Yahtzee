@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -203,7 +206,7 @@ public class GameController {
         return IntStream.of(dice).sum();
     }
 
-    public void play() {
+    public void play() throws IOException {
         //Only play if the current field is not registered yet
         if (!isRegistered[currentPlayer][currentIndex]) {
 
@@ -306,24 +309,30 @@ public class GameController {
         }
     }
 
-    public void endGame() {
-        //Clear dice from the dicePane, check which player has won, and display his/her name. Disable the roll button.
-        dicePane.getChildren().clear();
-        Text text = new Text();
+    public void endGame() throws IOException {
+        //Check which player has won, disable the roll button, and show the endgame scene.
+        String message;
         if (IntStream.of(score[0]).sum() > IntStream.of(score[1]).sum()) {
-            text.setText(player1Name + " wins!");
+            message = player1Name + " wins!";
         }
         else if (IntStream.of(score[1]).sum() > IntStream.of(score[0]).sum()) {
-            text.setText(player2Name + " wins!");
+            message = player2Name + " wins!";
         }
         else {
-            text.setText("It's a draw!");
+            message = "It's a draw!";
         }
-        text.setStyle(activePlayer);
-        dicePane.getChildren().add(text);
         player1Score.setStyle(inactivePlayer);
         btRoll.setDisable(true);
-    }
+        YahtzeeLauncher.getSceneManager().showEndGameScene(player1Name, player2Name, message);
+     }
+
+     public void toMenu() throws IOException {
+         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You will lose the current game data. Proceed?");
+         alert.showAndWait();
+         if (alert.getResult().equals(ButtonType.OK)) {
+             YahtzeeLauncher.getSceneManager().showMenuScene();
+         }
+     }
 
     public void setup(String player1Name, String player2Name) {
         //This method initializes a new game

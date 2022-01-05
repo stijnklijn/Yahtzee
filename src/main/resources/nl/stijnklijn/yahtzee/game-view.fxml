@@ -59,4 +59,7 @@
         <Button fx:id="btRoll" mnemonicParsing="false" onAction="#roll" text="ROLL "/>
         <Button fx:id="btPlay" mnemonicParsing="false" onAction="#play" text="PLAY"/>
     </HBox>
+    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20">
+        <Button fx:id="btMenu" mnemonicParsing="false" onAction="#toMenu" text="Menu"/>
+    </HBox>
 </VBox>
