@@ -48,7 +48,7 @@ public class SceneManager {
         GameController controller = fxmlLoader.getController();
         controller.setup(player1Name, player2Name);
         pane.getStylesheets().add(GameController.class.getResource("game-view.css").toExternalForm());
-        Scene scene = new Scene(pane, 800, 600);
+        Scene scene = new Scene(pane, 850, 650);
         primaryStage.setTitle("New Game");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();

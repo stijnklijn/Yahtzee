@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.Stack;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -62,10 +63,11 @@ public class GameController {
     boolean[] saveDice = new boolean[NUMBER_OF_DICE];               //Representing whether dice should be saved for the next roll
 
     //Inline styles
-    String inactivePlayer = "-fx-font-size: 30; -fx-font-weight: normal";
-    String activePlayer = "-fx-font-size: 30;-fx-font-weight: bold";
+    String inactivePlayer = "-fx-fill: grey; -fx-font-size: 30; -fx-font-weight: normal";
+    String activePlayer = "-fx-fill: white; -fx-font-size: 30;-fx-font-weight: bold";
     String unsavedDie = "-fx-border-width: 10; -fx-border-radius: 10; -fx-border-color: transparent";
     String savedDie = "-fx-border-width: 10; -fx-border-radius: 10; -fx-border-color: blue";
+    String fieldStyle = "-fx-fill: white; -fx-font-weight: bold";
 
     public void roll() {
         clearLastField();
@@ -82,7 +84,7 @@ public class GameController {
 
         //Increase turn by one
         Circle c = (Circle) turnTrackers.getChildren().get(currentTurn);
-        c.setFill(Color.BLACK);
+        c.setFill(Color.WHITE);
         currentTurn++;
 
         //Disable roll button when max turns is reached
@@ -94,14 +96,14 @@ public class GameController {
     public void select(MouseEvent e) {
 
         //Find out to which player the field that has been clicked belongs by extracting the player number from the id
-        StackPane clicked = (StackPane)(e.getSource());
-        int playerClicked = Integer.parseInt(clicked.getId().substring(1, 2));
+        Rectangle clicked = (Rectangle) (e.getSource());
+        int playerClicked = Integer.parseInt(clicked.getParent().getId().substring(1, 2));
 
         //Only select the field if the player that the field belongs to is the current player
         if (playerClicked == currentPlayer) {
 
             //Find out which field has been clicked by extracting the field number from the id
-            currentIndex = Integer.parseInt(clicked.getId().substring(2));
+            currentIndex = Integer.parseInt(clicked.getParent().getId().substring(2));
 
             //Find out how many points the field is worth
             switch (currentIndex) {
@@ -279,12 +281,29 @@ public class GameController {
         }
     }
 
+    public void highlightField(MouseEvent e) {
+        //Highlight or unhighlight selectable field on mouse hover
+        Rectangle hovered = (Rectangle) (e.getSource());
+        StackPane parent = (StackPane) hovered.getParent();
+        Text text = (Text) parent.getChildren().get(1);
+        int playerHovered = Integer.parseInt(parent.getId().substring(1, 2));
+        int indexHovered = Integer.parseInt(parent.getId().substring(2));
+        if (dice[0] != 0 && e.getEventType().equals(MouseEvent.MOUSE_ENTERED) && playerHovered == currentPlayer && !isRegistered[currentPlayer][indexHovered]) {
+            hovered.setStroke(Color.BLUE);
+        }
+        else if (text.getText().equals("")) {
+            hovered.setStroke(Color.GRAY);
+        }
+    }
+
     public void changeField(StackPane field, Color color, String s) {
         //Change color and content of field
         Rectangle rectangle = (Rectangle) field.getChildren().get(0);
         rectangle.setStroke(color);
+        rectangle.setFill(color);
         Text text = (Text) field.getChildren().get(1);
         text.setText(s);
+        text.setStyle(fieldStyle);
     }
 
     public void clearLastField() {
@@ -293,7 +312,7 @@ public class GameController {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < NUMBER_OF_FIELDS; j++) {
                 if (!isRegistered[i][j]) {
-                    changeField(field[i][j], Color.BLACK, "");
+                    changeField(field[i][j], Color.GRAY, "");
                 }
             }
         }
@@ -383,13 +402,15 @@ public class GameController {
                 isRegistered[i][j] = false;
                 field[i][j] = new StackPane();
                 Rectangle rectangle = new Rectangle(30, 30, 30, 30);
-                rectangle.setStroke(Color.BLACK);
-                rectangle.setFill(Color.TRANSPARENT);
+                rectangle.setStroke(Color.GRAY);
+                rectangle.setFill(Color.GRAY);
                 rectangle.setStrokeWidth(3);
                 field[i][j].getChildren().add(rectangle);
                 field[i][j].getChildren().add(new Text());
                 field[i][j].setId("i" + i + "" + j);
-                field[i][j].setOnMouseClicked(this::select);
+                rectangle.setOnMouseClicked(this::select);
+                rectangle.setOnMouseEntered(this::highlightField);
+                rectangle.setOnMouseExited(this::highlightField);
 
                 //The column of each field depends on which player and which half of the fields (left or right) it belongs to
                 int col;
@@ -413,7 +434,7 @@ public class GameController {
         turnTrackers = new Group();
         for (int i = 0; i < 3; i++) {
             Circle c = new Circle(i * 20, 0, 8);
-            c.setStroke(Color.BLACK);
+            c.setStroke(Color.WHITE);
             c.setFill(Color.TRANSPARENT);
             turnTrackers.getChildren().add(c);
         }
