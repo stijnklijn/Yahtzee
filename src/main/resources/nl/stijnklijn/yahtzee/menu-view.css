@@ -1,11 +1,25 @@
+.root {
+    -fx-background-color: #47a8b2;
+}
+
 #title {
     -fx-font-size: 60;
+    -fx-font-family: "Agency FB";
     -fx-font-weight: bold;
 }
 
 .button {
+    -fx-background-color: blue;
+    -fx-background-radius: 20;
     -fx-pref-width: 200;
     -fx-pref-height: 50;
     -fx-font-size: 20;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
 }

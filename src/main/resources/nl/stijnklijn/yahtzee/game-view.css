@@ -5,6 +5,7 @@
 #player1Pane, #player2Pane {
     -fx-background-color: #8a0303;
     -fx-background-radius: 20;
+    -fx-font-family: "Agency FB";
     -fx-text-fill: white;
     -fx-pref-width: 400;
     -fx-alignment: center;
@@ -16,6 +17,7 @@
     -fx-font-family: "Agency FB";
     -fx-font-size: 24;
 }
+
 .button {
     -fx-background-radius: 20;
     -fx-pref-width: 200;
@@ -34,13 +36,13 @@
 }
 
 #btMenu {
-    -fx-background-color: #b65252;
+    -fx-background-color: #8a0303;
     -fx-pref-width: 100;
     -fx-pref-height: 25;
     -fx-font-size: 12;
 }
 
-#btRoll:hover, #btPlay:hover, #btMenu:hover {
+.button:hover {
     -fx-border-color: white;
     -fx-border-width: 2;
     -fx-border-radius: 15;

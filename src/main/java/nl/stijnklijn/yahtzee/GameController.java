@@ -8,8 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +19,6 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.Stack;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -56,30 +53,29 @@ public class GameController {
 
     Group turnTrackers;     //Group of three circles on the roll button tracking and showing which turn it is
 
-    StackPane[] diceViewContainer = new StackPane[NUMBER_OF_DICE];  //Holding the dice imageviews
-    ImageView[] diceView = new ImageView[NUMBER_OF_DICE];           //Holding the dice images
-    Image[] diceImage = new Image[DICE_MAX];                        //The dice images
     int[] dice = new int[NUMBER_OF_DICE];                           //Integers representing the dice roll
     boolean[] saveDice = new boolean[NUMBER_OF_DICE];               //Representing whether dice should be saved for the next roll
 
     //Inline styles
     String inactivePlayer = "-fx-fill: grey; -fx-font-size: 30; -fx-font-weight: normal";
     String activePlayer = "-fx-fill: white; -fx-font-size: 30;-fx-font-weight: bold";
-    String unsavedDie = "-fx-border-width: 10; -fx-border-radius: 10; -fx-border-color: transparent";
-    String savedDie = "-fx-border-width: 10; -fx-border-radius: 10; -fx-border-color: blue";
     String fieldStyle = "-fx-fill: white; -fx-font-weight: bold";
 
     public void roll() {
         clearLastField();
 
-        //Roll each die that hasn't been saved
+        //Clear previous dice, then roll each die that hasn't been saved, and display the new dice
+        dicePane.getChildren().clear();
         Random random = new Random();
         for (int i = 0; i < NUMBER_OF_DICE; i++) {
             if (!saveDice[i]) {
                 int roll = random.nextInt(DICE_MAX);
-                diceView[i].setImage(diceImage[roll]);
                 dice[i] = roll + 1;
             }
+            Die die = new Die(dice[i], saveDice[i]);
+            die.setId("d" + i);
+            die.setOnMouseClicked(this::saveDice);
+            dicePane.getChildren().add(die);
         }
 
         //Increase turn by one
@@ -94,7 +90,6 @@ public class GameController {
     }
 
     public void select(MouseEvent e) {
-
         //Find out to which player the field that has been clicked belongs by extracting the player number from the id
         Rectangle clicked = (Rectangle) (e.getSource());
         int playerClicked = Integer.parseInt(clicked.getParent().getId().substring(1, 2));
@@ -127,12 +122,12 @@ public class GameController {
         }
     }
 
-    public int calculateSum(int index) {
+    private int calculateSum(int index) {
         //Calculate the sum of the dice that rolled the given (index) number
         return IntStream.of(dice).filter(n -> n == index).sum();
     }
 
-    public int calculateThreeOfAKind() {
+    private int calculateThreeOfAKind() {
         //For each number between 1 and the maximum, check whether at least three dice rolled that number
         //If so, return the sum of all dice
         for (int i = 1; i <= DICE_MAX; i++) {
@@ -144,7 +139,7 @@ public class GameController {
         return 0;
     }
 
-    public int calculateFourOfAKind() {
+    private int calculateFourOfAKind() {
         //For each number between 1 and the maximum, check whether at least four dice rolled that number
         //If so, return the sum of all dice
         for (int i = 1; i <= DICE_MAX; i++) {
@@ -156,7 +151,7 @@ public class GameController {
         return 0;
     }
 
-    public int calculateFullHouse() {
+    private int calculateFullHouse() {
         //Sort the dice, then check whether the first two and last three are the same
         //or the first three and last two are the same.
         int[] sortedDice = IntStream.of(dice).sorted().toArray();
@@ -168,7 +163,7 @@ public class GameController {
         }
     }
 
-    public int calculateSmallStraight() {
+    private int calculateSmallStraight() {
         //Sort the dice and keep only distinct dice.
         //Then, if the remaining array has length 4, check whether all dice are consecutive
         //If the remaining array has length 5, check whether the first four or the last four are consecutive.
@@ -182,7 +177,7 @@ public class GameController {
         }
     }
 
-    public int calculateLargeStraight() {
+    private int calculateLargeStraight() {
         //Sort the dice and check whether all dice are consecutive
         int[] sortedDice = IntStream.of(dice).sorted().toArray();
         if (sortedDice[1] - sortedDice[0] == 1 && sortedDice[2] - sortedDice[1] == 1 && sortedDice[3] - sortedDice[2] == 1 && sortedDice[4] - sortedDice[3] == 1) {
@@ -193,7 +188,7 @@ public class GameController {
         }
     }
 
-    public int calculateYahtZee() {
+    private int calculateYahtZee() {
         //Check whether all dice are equal
         if (dice[0] == dice[1] && dice[0] == dice[2] && dice[0] == dice[3] && dice[0] == dice[4]) {
             return 50;
@@ -203,7 +198,7 @@ public class GameController {
         }
     }
 
-    public int calculateChance() {
+    private int calculateChance() {
         //Return the sum of all dice
         return IntStream.of(dice).sum();
     }
@@ -252,7 +247,7 @@ public class GameController {
         }
     }
 
-    public void checkBonus() {
+    private void checkBonus() {
         //Bonus of 35 points should be applied if left column sums to at least 63 points.
         if (score[currentPlayer][0] + score[currentPlayer][1] + score[currentPlayer][2] + score[currentPlayer][3] + score[currentPlayer][4] + score[currentPlayer][5] >= 63) {
             score[currentPlayer][6] = 35;
@@ -266,18 +261,12 @@ public class GameController {
         if (dice[0] != 0) {
 
             //Find out to which die has been clicked by extracting the index from the id
-            StackPane clicked = (StackPane)(e.getSource());
-            int diceIndex = Integer.parseInt(clicked.getId().substring(2));
+            Die clicked = (Die)(e.getSource());
+            int diceIndex = Integer.parseInt(clicked.getId().substring(1));
 
             //Save or unsave the die and mark appropriately
-            if (saveDice[diceIndex]) {
-                diceViewContainer[diceIndex].setStyle(unsavedDie);
-                saveDice[diceIndex] = false;
-            }
-            else {
-                diceViewContainer[diceIndex].setStyle(savedDie);
-                saveDice[diceIndex] = true;
-            }
+            clicked.toggleSaved();
+            saveDice[diceIndex] = !saveDice[diceIndex];
         }
     }
 
@@ -296,7 +285,7 @@ public class GameController {
         }
     }
 
-    public void changeField(StackPane field, Color color, String s) {
+    private void changeField(StackPane field, Color color, String s) {
         //Change color and content of field
         Rectangle rectangle = (Rectangle) field.getChildren().get(0);
         rectangle.setStroke(color);
@@ -306,7 +295,7 @@ public class GameController {
         text.setStyle(fieldStyle);
     }
 
-    public void clearLastField() {
+    private void clearLastField() {
         //Clear each field that has not been registered.
         //This will clear the field that has been selected lastly but not registered
         for (int i = 0; i < 2; i++) {
@@ -318,17 +307,16 @@ public class GameController {
         }
     }
 
-    public void clearDice() {
+    private void clearDice() {
         //Set each die to 0 and remove the die image and border
         for (int i = 0; i < NUMBER_OF_DICE; i++) {
             dice[i] = 0;
-            diceView[i].setImage(null);
-            diceViewContainer[i].setStyle(unsavedDie);
             saveDice[i] = false;
         }
+        dicePane.getChildren().clear();
     }
 
-    public void endGame() throws IOException {
+    private void endGame() throws IOException {
         //Check which player has won, disable the roll button, and show the endgame scene.
         String message;
         if (IntStream.of(score[0]).sum() > IntStream.of(score[1]).sum()) {
@@ -345,13 +333,13 @@ public class GameController {
         YahtzeeLauncher.getSceneManager().showEndGameScene(player1Name, player2Name, message);
      }
 
-     public void toMenu() throws IOException {
+    public void toMenu() throws IOException {
          Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You will lose the current game data. Proceed?");
          alert.showAndWait();
          if (alert.getResult().equals(ButtonType.OK)) {
              YahtzeeLauncher.getSceneManager().showMenuScene();
          }
-     }
+    }
 
     public void setup(String player1Name, String player2Name) {
         //This method initializes a new game
@@ -375,26 +363,6 @@ public class GameController {
         fieldPane.add(new Text(player2Name), 2, 0);
         fieldPane.add(new Text(player1Name), 4, 0);
         fieldPane.add(new Text(player2Name), 5, 0);
-
-        //Initialize diceView
-        for (int i = 0; i < NUMBER_OF_DICE; i++) {
-            diceView[i] = new ImageView();
-            diceView[i].setFitWidth(100);
-            diceView[i].setFitHeight(100);
-
-            diceViewContainer[i] = new StackPane();
-            diceViewContainer[i].getChildren().add(diceView[i]);
-            diceViewContainer[i].setId("iv" + i);
-            diceViewContainer[i].setStyle(unsavedDie);
-            diceViewContainer[i].setOnMouseClicked(this::saveDice);
-
-            dicePane.getChildren().add(diceViewContainer[i]);
-        }
-
-        //Load images
-        for (int i = 0; i < DICE_MAX; i++) {
-            diceImage[i] = new Image(PATH + (i + 1) + ".jpg");
-        }
 
         //Initialize game fields
         for (int i = 0; i < 2; i++) {

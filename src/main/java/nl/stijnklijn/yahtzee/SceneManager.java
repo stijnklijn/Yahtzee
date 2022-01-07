@@ -22,7 +22,7 @@ public class SceneManager {
         MenuController controller = fxmlLoader.getController();
         controller.setup();
         pane.getStylesheets().add(MenuController.class.getResource("menu-view.css").toExternalForm());
-        Scene scene = new Scene(pane, 400, 400);
+        Scene scene = new Scene(pane, 400, 500);
         primaryStage.setTitle("Yahtzee");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
@@ -48,7 +48,7 @@ public class SceneManager {
         GameController controller = fxmlLoader.getController();
         controller.setup(player1Name, player2Name);
         pane.getStylesheets().add(GameController.class.getResource("game-view.css").toExternalForm());
-        Scene scene = new Scene(pane, 850, 650);
+        Scene scene = new Scene(pane, 850, 750);
         primaryStage.setTitle("New Game");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();

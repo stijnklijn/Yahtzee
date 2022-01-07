@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+<VBox spacing="10" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="nl.stijnklijn.yahtzee.GameController">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
-    <HBox alignment="CENTER" spacing="20" prefHeight="100.0" prefWidth="200.0">
-        <HBox fx:id="player1Pane" prefHeight="100.0" prefWidth="200.0"/>
-        <HBox fx:id="player2Pane" prefHeight="100.0" prefWidth="200.0"/>
+    <HBox alignment="CENTER" spacing="20" prefHeight="75.0" prefWidth="200.0">
+        <HBox fx:id="player1Pane" prefHeight="75.0" prefWidth="200.0"/>
+        <HBox fx:id="player2Pane" prefHeight="75.0" prefWidth="200.0"/>
     </HBox>
     <GridPane fx:id="fieldPane" vgap="10">
         <padding>
@@ -60,12 +60,13 @@
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Yahtzee" GridPane.columnIndex="3" GridPane.rowIndex="6"/>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chance" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
     </GridPane>
-    <HBox fx:id="dicePane" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20"/>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20">
+    <HBox fx:id="dicePane" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20">
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0" spacing="20">
         <Button fx:id="btRoll" mnemonicParsing="false" onAction="#roll" text="ROLL "/>
         <Button fx:id="btPlay" mnemonicParsing="false" onAction="#play" text="PLAY"/>
     </HBox>
-    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20">
+    <HBox alignment="CENTER" prefHeight="35.0" prefWidth="600.0" spacing="20">
         <Button fx:id="btMenu" mnemonicParsing="false" onAction="#toMenu" text="Menu"/>
     </HBox>
 </VBox>

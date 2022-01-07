@@ -1,6 +1,7 @@
 package nl.stijnklijn.yahtzee;
 
 import javafx.fxml.FXML;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import java.util.Random;
 public class EndGameController {
 
     private static final String PATH = "file:src/main/resources/nl/stijnklijn/yahtzee/";
+    private static final String message = "You will lose the current game data. Proceed?";
 
     @FXML Text title;
     @FXML ImageView imageView;
@@ -24,7 +26,7 @@ public class EndGameController {
     Stage secondaryStage;
 
     public void playAgainSamePlayers() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You will lose the current game data. Proceed?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.showAndWait();
         if (alert.getResult().equals(ButtonType.OK)) {
             secondaryStage.close();
@@ -33,7 +35,7 @@ public class EndGameController {
     }
 
     public void playAgainDifferentPlayers() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You will lose the current game data. Proceed?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.showAndWait();
         if (alert.getResult().equals(ButtonType.OK)) {
             secondaryStage.close();
@@ -42,7 +44,7 @@ public class EndGameController {
     }
 
     public void backToMainMenu() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You will lose the current game data. Proceed?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message);
         alert.showAndWait();
         if (alert.getResult().equals(ButtonType.OK)) {
             secondaryStage.close();
@@ -65,6 +67,5 @@ public class EndGameController {
         imageView.setImage(new Image(PATH + imageNumber + ".gif"));
         imageView.setFitWidth(200);
         imageView.setFitHeight(150);
-
     }
 }

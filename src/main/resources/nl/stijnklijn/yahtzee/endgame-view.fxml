@@ -10,8 +10,8 @@
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.stijnklijn.yahtzee.EndGameController">
    <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0"/>
    <ImageView fx:id="imageView"/>
-   <Button mnemonicParsing="false" text="Play again (same players)" onAction="#playAgainSamePlayers"/>
-   <Button mnemonicParsing="false" text="Play again (different players)" onAction="#playAgainDifferentPlayers"/>
-   <Button mnemonicParsing="false" text="Back to main menu" onAction="#backToMainMenu"/>
-   <Button mnemonicParsing="false" text="Back to game" onAction="#backToGame"/>
+   <Button mnemonicParsing="false" text="PLAY AGAIN (SAME PLAYERS)" onAction="#playAgainSamePlayers"/>
+   <Button mnemonicParsing="false" text="PLAY AGAIN (DIFFERENT PLAYERS)" onAction="#playAgainDifferentPlayers"/>
+   <Button mnemonicParsing="false" text="BACK TO MAIN MENU" onAction="#backToMainMenu"/>
+   <Button mnemonicParsing="false" text="BACK TO GAME" onAction="#backToGame"/>
 </VBox>

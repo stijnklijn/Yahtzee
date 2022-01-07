@@ -1,23 +1,49 @@
+.root {
+    -fx-background-color: #47a8b2;
+}
+
 #player1Pane, #player2Pane {
+    -fx-background-color: #8a0303;
+    -fx-background-radius: 20;
+    -fx-font-family: "Agency FB";
+    -fx-text-fill: white;
     -fx-pref-width: 400;
-    -fx-border-color: black;
     -fx-alignment: center;
 }
 
 #fieldPane {
-    -fx-font-size: 20;
+    -fx-background-color: #ff9e25;
+    -fx-background-radius: 20;
+    -fx-font-family: "Agency FB";
+    -fx-font-size: 24;
 }
 
 .button {
+    -fx-background-radius: 20;
     -fx-pref-width: 200;
     -fx-pref-height: 50;
     -fx-font-size: 20;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
+#btRoll {
+    -fx-background-color: blue;
+}
+
+#btPlay {
+    -fx-background-color: green;
+}
+
 #btMenu {
+    -fx-background-color: #8a0303;
     -fx-pref-width: 100;
     -fx-pref-height: 25;
     -fx-font-size: 12;
-    -fx-font-weight: normal;
+}
+
+.button:hover {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 15;
 }
