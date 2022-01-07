@@ -1,5 +1,7 @@
 package nl.stijnklijn.yahtzee;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 
 import javafx.scene.Group;
@@ -16,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Random;
@@ -55,6 +58,8 @@ public class GameController {
 
     int[] dice = new int[NUMBER_OF_DICE];                           //Integers representing the dice roll
     boolean[] saveDice = new boolean[NUMBER_OF_DICE];               //Representing whether dice should be saved for the next roll
+    double rDice = 0.0;                                             //Current rotation for dice animation
+    double drDice = 1.0;                                            //Rotation change for dice animation
 
     //Inline styles
     String inactivePlayer = "-fx-fill: grey; -fx-font-size: 30; -fx-font-weight: normal";
@@ -78,6 +83,11 @@ public class GameController {
             dicePane.getChildren().add(die);
         }
 
+        //Show dice animation
+        Timeline animation = new Timeline(new KeyFrame(Duration.millis(5), e -> moveDie()));
+        animation.setCycleCount(80);
+        animation.play();
+
         //Increase turn by one
         Circle c = (Circle) turnTrackers.getChildren().get(currentTurn);
         c.setFill(Color.WHITE);
@@ -86,6 +96,21 @@ public class GameController {
         //Disable roll button when max turns is reached
         if (currentTurn == MAX_TURNS) {
             btRoll.setDisable(true);
+        }
+    }
+
+    private void moveDie() {
+        //Invert the rotation direction at -10 and 10 degrees of rotation
+        if (rDice == -10 || rDice == 10) {
+            drDice *= -1.0;
+        }
+
+        //Change rotation accordingly for all dice
+        rDice += drDice;
+        for (int i = 0; i < NUMBER_OF_DICE; i++) {
+            if (!saveDice[i]) {
+                dicePane.getChildren().get(i).setRotate(rDice);
+            }
         }
     }
 
