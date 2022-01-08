@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 
 public class GameController {
 
-    private static final String PATH = "file:src/main/resources/nl/stijnklijn/yahtzee/";
     private static final int NUMBER_OF_DICE = 5;
     private static final int DICE_MAX = 6;
     private static final int NUMBER_OF_FIELDS = 14;
