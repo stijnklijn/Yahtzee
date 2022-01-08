@@ -273,7 +273,7 @@ public class GameController {
 
     private void checkBonus() {
         //Bonus of 35 points should be applied if left column sums to at least 63 points.
-        if (score[currentPlayer][0] + score[currentPlayer][1] + score[currentPlayer][2] + score[currentPlayer][3] + score[currentPlayer][4] + score[currentPlayer][5] >= 63) {
+        if (score[currentPlayer][6] == 0 && score[currentPlayer][0] + score[currentPlayer][1] + score[currentPlayer][2] + score[currentPlayer][3] + score[currentPlayer][4] + score[currentPlayer][5] >= 63) {
             score[currentPlayer][6] = 35;
             changeField(field[currentPlayer][6], Color.GREEN, "35");
         }
