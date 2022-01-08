@@ -21,7 +21,7 @@ public class YahtzeeLauncher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        getSceneManager().showMenuScene();
+        getSceneManager().showGameScene("Stijn", "Anne");
     }
 
     public static void main(String[] args) {

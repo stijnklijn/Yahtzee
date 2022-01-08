@@ -84,7 +84,7 @@ public class GameController {
         }
 
         //Show dice animation
-        Timeline animation = new Timeline(new KeyFrame(Duration.millis(5), e -> moveDie()));
+        Timeline animation = new Timeline(new KeyFrame(Duration.millis(5), e -> animateDie()));
         animation.setCycleCount(80);
         animation.play();
 
@@ -99,7 +99,7 @@ public class GameController {
         }
     }
 
-    private void moveDie() {
+    private void animateDie() {
         //Invert the rotation direction at -10 and 10 degrees of rotation
         if (rDice == -10 || rDice == 10) {
             drDice *= -1.0;
@@ -318,6 +318,27 @@ public class GameController {
         Text text = (Text) field.getChildren().get(1);
         text.setText(s);
         text.setStyle(fieldStyle);
+
+        //If field is marked as final (green), play animation
+        if (color.equals(Color.GREEN)) {
+            Timeline animation = new Timeline(new KeyFrame(Duration.millis(2), e -> animateField(field)));
+            animation.setCycleCount(360);
+            animation.play();
+        }
+    }
+
+    private void animateField(StackPane field) {
+        //Field marked as final will rotate and increase, then decrease scale.
+        double rField = field.getRotate();
+        if (rField < 180) {
+            field.setScaleX(1 + rField / 100);
+            field.setScaleY(1 + rField / 100);
+        }
+        else {
+            field.setScaleX(1 + (360 - rField) / 100);
+            field.setScaleY(1 + (360 - rField) / 100);
+        }
+        field.setRotate(rField + 1);
     }
 
     private void clearLastField() {
